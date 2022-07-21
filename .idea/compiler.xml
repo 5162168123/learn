@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="groceries" />
+        <module name="register-server" />
+        <module name="concurrent" />
+        <module name="distributed-filesystem" />
+        <module name="jdk-demo" />
+        <module name="register-client" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="concurrent" target="1.8" />
+      <module name="distributed-filesystem" target="1.8" />
+      <module name="groceries" target="1.8" />
+      <module name="jdk-demo" target="8" />
+      <module name="register-client" target="1.8" />
+      <module name="register-server" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

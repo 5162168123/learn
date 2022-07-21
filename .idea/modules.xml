@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/chapter22/chapter22.iml" filepath="$PROJECT_DIR$/chapter22/chapter22.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chapter24/chapter24.iml" filepath="$PROJECT_DIR$/chapter24/chapter24.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chapter25/chapter25.iml" filepath="$PROJECT_DIR$/chapter25/chapter25.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chapter26/chapter26.iml" filepath="$PROJECT_DIR$/chapter26/chapter26.iml" />
+      <module fileurl="file://$PROJECT_DIR$/concurrent/concurrent.iml" filepath="$PROJECT_DIR$/concurrent/concurrent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-filesystem/distributed-filesystem.iml" filepath="$PROJECT_DIR$/distributed-filesystem/distributed-filesystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/groceries/groceries.iml" filepath="$PROJECT_DIR$/groceries/groceries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jdk-demo/jdk-demo.iml" filepath="$PROJECT_DIR$/jdk-demo/jdk-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/learn.iml" filepath="$PROJECT_DIR$/learn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/register-client/register-client.iml" filepath="$PROJECT_DIR$/register-client/register-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/register-server/register-server.iml" filepath="$PROJECT_DIR$/register-server/register-server.iml" />
+    </modules>
+  </component>
+</project>
