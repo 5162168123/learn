@@ -39,6 +39,7 @@ public class ServiceInstance {
     }*/
 
     public void renew(){
+
         this.lease.renew();
         System.out.println(serviceInstanceId+"续约成功");
     }

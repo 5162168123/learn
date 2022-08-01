@@ -71,11 +71,12 @@ public class CachedServiceRegistry {
      * 拉取全量注册表到本地
      */
     private void fetchFullRegistry() {
+        while(true) {
         Long expectedVersion = applicationsVersion.get(); // version = 0
         Applications fetchedApplications = HttpSender.fetchFullRegistry();
 
         if(applicationsVersion.compareAndSet(expectedVersion, expectedVersion + 1)) { // version = 1
-            while(true) {
+
                 Applications expectedApplications = applications.getReference();
                 int expectedStamp = applications.getStamp();
                 if(applications.compareAndSet(expectedApplications, fetchedApplications,

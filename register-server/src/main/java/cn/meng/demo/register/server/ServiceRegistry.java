@@ -7,6 +7,7 @@ import lombok.ToString;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 注册表实例
@@ -39,29 +40,56 @@ public class ServiceRegistry {
      */
     private Map<String,Map<String,ServiceInstance>> registry = new HashMap<>();
 
+    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+    private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
 
+    public void readLock(){
+        this.readLock.lock();
+    }
+    public void unReadLock(){
+        this.readLock.unlock();
+    }
+
+    public void writeLock(){
+        this.writeLock.lock();
+    }
+    public void unWriteLock(){
+        this.writeLock.unlock();
+    }
     /**
      * 注册服务
      * @param serviceInstance 服务实例
      */
-    public synchronized void register(ServiceInstance serviceInstance){
-        //服务实例放入注册表中
-        Map<String,ServiceInstance> serviceInstanceMap = registry.get(serviceInstance.getServiceName());
-        if(serviceInstanceMap == null){
-            serviceInstanceMap = new HashMap<>();
-            registry.put(serviceInstance.getServiceName(),serviceInstanceMap);
-        }
-        serviceInstanceMap.put(serviceInstance.getServiceInstanceId(),serviceInstance);
+    public  void register(ServiceInstance serviceInstance){
+        try{
+            this.writeLock.lock();
+            //服务实例放入注册表中
+            Map<String,ServiceInstance> serviceInstanceMap = registry.get(serviceInstance.getServiceName());
+            if(serviceInstanceMap == null){
+                serviceInstanceMap = new HashMap<>();
+                registry.put(serviceInstance.getServiceName(),serviceInstanceMap);
+            }
+            serviceInstanceMap.put(serviceInstance.getServiceInstanceId(),serviceInstance);
 
-        //服务实例放入变更列队
-        RecentlyChangedServiceInstance build = RecentlyChangedServiceInstance.builder().changedTimestamp(System.currentTimeMillis())
-                .serviceInstance(serviceInstance)
-                .serviceInstanceOperation(RecentlyChangedOperation.REGISTRY)
-                .build();
-        recentlyChangedQueue.offer(build);
-        System.out.println("服务实例【"+serviceInstance +"】注册成功");
-        System.out.println("注册表【"+registry+"】");
+            //服务实例放入变更列队
+            RecentlyChangedServiceInstance build = RecentlyChangedServiceInstance.builder().changedTimestamp(System.currentTimeMillis())
+                    .serviceInstance(serviceInstance)
+                    .serviceInstanceOperation(RecentlyChangedOperation.REGISTRY)
+                    .build();
+            recentlyChangedQueue.offer(build);
+            System.out.println("服务实例【"+serviceInstance +"】注册成功");
+            System.out.println("注册表【"+registry+"】");
+        }finally {
+            this.writeLock.unlock();
+        }
+
     }
+
+    /**
+     * 获取注册表单例
+     * @return
+     */
     public static ServiceRegistry getInstance(){
         return instance;
     }
@@ -106,20 +134,26 @@ public class ServiceRegistry {
      * @param serviceName
      * @param serviceInstanceId
      */
-    public synchronized void remove(String serviceName,String serviceInstanceId) {
-        Map<String, ServiceInstance> serviceInstanceMap = registry.get(serviceName);
-        System.out.println("服务实例【"+serviceInstanceId+"】摘除");
-        ServiceInstance serviceInstance = serviceInstanceMap.get(serviceInstanceId);
-        //服务实例放入变更列队
-        RecentlyChangedServiceInstance build = RecentlyChangedServiceInstance.builder().changedTimestamp(System.currentTimeMillis())
-                .serviceInstance(serviceInstance)
-                .serviceInstanceOperation(RecentlyChangedOperation.REMOVE)
-                .build();
-        recentlyChangedQueue.offer(build);
-        serviceInstanceMap.remove(serviceInstanceId);
-        if(serviceInstanceMap.size() == 0){
-            registry.remove(serviceName);
+    public  void remove(String serviceName,String serviceInstanceId) {
+        try{
+            this.writeLock.lock();
+            Map<String, ServiceInstance> serviceInstanceMap = registry.get(serviceName);
+            System.out.println("服务实例【"+serviceInstanceId+"】摘除");
+            ServiceInstance serviceInstance = serviceInstanceMap.get(serviceInstanceId);
+            //服务实例放入变更列队
+            RecentlyChangedServiceInstance build = RecentlyChangedServiceInstance.builder().changedTimestamp(System.currentTimeMillis())
+                    .serviceInstance(serviceInstance)
+                    .serviceInstanceOperation(RecentlyChangedOperation.REMOVE)
+                    .build();
+            recentlyChangedQueue.offer(build);
+            serviceInstanceMap.remove(serviceInstanceId);
+            if(serviceInstanceMap.size() == 0){
+                registry.remove(serviceName);
+            }
+        }finally {
+            this.writeLock.unlock();
         }
+
     }
 
     /**

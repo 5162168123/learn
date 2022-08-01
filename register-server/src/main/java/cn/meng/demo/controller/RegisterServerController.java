@@ -62,8 +62,16 @@ public class RegisterServerController {
     public HeartbeatResponse heartbeat(HeartbeatRequest request){
         HeartbeatResponse response;
         try{
-            ServiceInstance serviceInstance = registry.getServiceInstance(request.getServiceName(),request.getServiceInstanceId());
-            serviceInstance.renew();
+            try{
+                registry.writeLock();
+                ServiceInstance serviceInstance = registry.getServiceInstance(request.getServiceName(),request.getServiceInstanceId());
+
+                serviceInstance.renew();
+            }finally {
+                registry.unWriteLock();
+            }
+
+
             HeartbeatCounter.getInstance().increment();
             response = HeartbeatResponse.builder()
                     .code(ResponseEnum.SUCCESS.getCode())
@@ -88,7 +96,13 @@ public class RegisterServerController {
      * @return
      */
     public Applications fetchFullRegistry() {
-        return new Applications(registry.getRegistry());
+        try{
+            registry.readLock();
+            return new Applications(registry.getRegistry());
+        }finally {
+            registry.unReadLock();
+        }
+
     }
 
 
@@ -97,7 +111,13 @@ public class RegisterServerController {
      * @return
      */
     public DeltaRegistry fetchDeltaRegistry(){
-        return registry.getDeltaRegistry();
+        try{
+            registry.readLock();
+            return registry.getDeltaRegistry();
+        }finally {
+            registry.unReadLock();
+        }
+
     }
 
         /**

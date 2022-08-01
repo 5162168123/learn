@@ -8,5 +8,6 @@ public class MyClassLoader extends ClassLoader {
         if(a instanceof Integer){
 
         }
+        return null;
     }
 }
