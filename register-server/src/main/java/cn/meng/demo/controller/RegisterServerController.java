@@ -62,17 +62,14 @@ public class RegisterServerController {
     public HeartbeatResponse heartbeat(HeartbeatRequest request){
         HeartbeatResponse response;
         try{
-            try{
-                registry.writeLock();
-                ServiceInstance serviceInstance = registry.getServiceInstance(request.getServiceName(),request.getServiceInstanceId());
 
+            registry.writeLock();
+            ServiceInstance serviceInstance = registry.getServiceInstance(request.getServiceName(),request.getServiceInstanceId());
+            if(serviceInstance!=null){
                 serviceInstance.renew();
-            }finally {
-                registry.unWriteLock();
+                HeartbeatCounter.getInstance().increment();
+
             }
-
-
-            HeartbeatCounter.getInstance().increment();
             response = HeartbeatResponse.builder()
                     .code(ResponseEnum.SUCCESS.getCode())
                     .message(ResponseEnum.SUCCESS.getMessage())

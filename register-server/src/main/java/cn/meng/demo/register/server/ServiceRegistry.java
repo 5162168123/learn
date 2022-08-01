@@ -101,8 +101,13 @@ public class ServiceRegistry {
      * @return
      */
     public synchronized ServiceInstance getServiceInstance(String serviceName,String ServiceInstanceId){
-        Map<String, ServiceInstance> serviceInstanceMap = registry.get(serviceName);
-        return serviceInstanceMap.get(ServiceInstanceId);
+        try {
+            this.readLock();
+            Map<String, ServiceInstance> serviceInstanceMap = registry.get(serviceName);
+            return serviceInstanceMap.get(ServiceInstanceId);
+        } finally {
+            this.unWriteLock();
+        }
     }
 
 
