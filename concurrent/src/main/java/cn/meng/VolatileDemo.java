@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class VolatileDemo {
 
-	int flag = 0;
+	volatile int flag = 0;
 	
 	public static void main(String[] args) {
 
