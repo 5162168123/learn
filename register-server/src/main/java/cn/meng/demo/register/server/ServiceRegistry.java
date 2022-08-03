@@ -100,7 +100,7 @@ public class ServiceRegistry {
      * @param ServiceInstanceId 服务id
      * @return
      */
-    public synchronized ServiceInstance getServiceInstance(String serviceName,String ServiceInstanceId){
+    public  ServiceInstance getServiceInstance(String serviceName,String ServiceInstanceId){
         try {
             this.readLock();
             Map<String, ServiceInstance> serviceInstanceMap = registry.get(serviceName);
@@ -115,7 +115,7 @@ public class ServiceRegistry {
      * 返回全量注册表
      * @return
      */
-    public synchronized Map<String,Map<String,ServiceInstance>> getRegistry() {
+    public  Map<String,Map<String,ServiceInstance>> getRegistry() {
         return registry;
     }
 

@@ -7,8 +7,15 @@ import java.util.Map;
 
 public class RegisterServerController {
 
+    /**
+     * 服务注册表
+     */
     private ServiceRegistry registry = ServiceRegistry.getInstance();
+    /**
+     * 服务注册表缓存
+     */
 
+    private ServiceRegistryCache serviceRegistryCache = ServiceRegistryCache.getInstance();
 
     /**
      * 服务注册
@@ -93,12 +100,13 @@ public class RegisterServerController {
      * @return
      */
     public Applications fetchFullRegistry() {
-        try{
+        return (Applications) serviceRegistryCache.get(ServiceRegistryCache.CacheKey.FULL_SERVICE_REGISTRY);
+       /* try{
             registry.readLock();
             return new Applications(registry.getRegistry());
         }finally {
             registry.unReadLock();
-        }
+        }*/
 
     }
 
@@ -108,13 +116,14 @@ public class RegisterServerController {
      * @return
      */
     public DeltaRegistry fetchDeltaRegistry(){
-        try{
+        return (DeltaRegistry) serviceRegistryCache.get(ServiceRegistryCache.CacheKey.DELTA_SERVICE_REGISTRY);
+      /*  try{
             registry.readLock();
             return registry.getDeltaRegistry();
         }finally {
             registry.unReadLock();
         }
-
+*/
     }
 
         /**
