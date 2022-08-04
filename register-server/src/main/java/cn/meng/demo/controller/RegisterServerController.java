@@ -42,12 +42,15 @@ public class RegisterServerController {
                     .message(ResponseEnum.SUCCESS.getMessage())
                     .status(ResponseEnum.SUCCESS.getStatus())
                     .build();
+            //更新自我保护机制
             synchronized(SelfProtectionPolicy.class){
                 SelfProtectionPolicy selfProtectionPolicy = SelfProtectionPolicy.getInstance();
                 selfProtectionPolicy.setExpectedHeartbeatRate( selfProtectionPolicy.getExpectedHeartbeatRate()+2);
                 selfProtectionPolicy.setExpectedHeartbeatThreshold(
                         (long) (selfProtectionPolicy.getExpectedHeartbeatRate()*0.85));
             }
+            //过期注册表缓存
+            serviceRegistryCache.invalidate();
 
 
             }catch (Exception e){
@@ -133,11 +136,14 @@ public class RegisterServerController {
      */
     public void cancel(String serviceName,String serviceInstanceId){
         registry.remove(serviceName,serviceInstanceId);
+        //更新自我保护策略
         synchronized(SelfProtectionPolicy.class){
             SelfProtectionPolicy selfProtectionPolicy = SelfProtectionPolicy.getInstance();
             selfProtectionPolicy.setExpectedHeartbeatRate( selfProtectionPolicy.getExpectedHeartbeatRate()-2);
             selfProtectionPolicy.setExpectedHeartbeatThreshold(
                     (long) (selfProtectionPolicy.getExpectedHeartbeatRate()*0.85));
         }
+
+        ServiceRegistryCache.getInstance().invalidate();
     }
 }

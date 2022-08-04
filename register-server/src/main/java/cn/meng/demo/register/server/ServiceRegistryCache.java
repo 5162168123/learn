@@ -8,7 +8,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ServiceRegistryCache {
 
+    /**
+     * 单例
+     */
     private static ServiceRegistryCache instance = new ServiceRegistryCache();
+
+    private final static long CACHE_MAP_SYNC_INTERVAL = 30*1000L;
     private ServiceRegistry registry = ServiceRegistry.getInstance();
 
     public static class CacheKey{
@@ -29,9 +34,10 @@ public class ServiceRegistryCache {
      *
      */
 
-    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-    private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
-    private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
+    private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
+    private ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
+    private Object lock = new Object();
 
     /**
      * 只读缓存
@@ -43,6 +49,7 @@ public class ServiceRegistryCache {
      */
     private Map<String,Object> readWriteMap = new HashMap<>();
 
+    private CacheMapSyncDaemon deamon;
 
     /**
      * 根据缓存key获取数据
@@ -50,24 +57,41 @@ public class ServiceRegistryCache {
      * @return
      */
     public Object get(String cacheKey){
-        Object cacheValue = readOnlyMap.get(cacheKey);
-        if(cacheValue == null){
+        Object cacheValue ;
+        try {
 
-            synchronized (readOnlyMap) {
-                if (readOnlyMap.get(cacheKey) == null) {
-                    cacheValue = readWriteMap.get(cacheKey);
+            readLock.lock();
+            cacheValue = readOnlyMap.get(cacheKey);
+            if(cacheValue == null){
 
-                    if(cacheValue == null){
-                        cacheValue = getCacheValue(cacheKey);
+                synchronized (lock) {
+                    if (readOnlyMap.get(cacheKey) == null) {
+                        cacheValue = readWriteMap.get(cacheKey);
+
+                        if(cacheValue == null){
+                            cacheValue = getCacheValue(cacheKey);
+                            readWriteMap.put(cacheKey,cacheValue);
+                        }
+
+                        readOnlyMap.put(cacheKey,cacheValue);
                     }
-
-                    readOnlyMap.put(cacheKey,cacheValue);
                 }
             }
+        } finally {
+            readLock.unlock();
         }
         return cacheValue;
     }
 
+    public void invalidate(){
+        synchronized (lock){
+            readWriteMap.remove(CacheKey.DELTA_SERVICE_REGISTRY);
+            readWriteMap.remove(CacheKey.FULL_SERVICE_REGISTRY);
+        }
+
+
+
+    }
 
     /**
      * 获取实际缓存数据
@@ -88,9 +112,43 @@ public class ServiceRegistryCache {
         return null;
     }
     private ServiceRegistryCache(){
-
+        //启动缓存数据同步后台线程
+        this.deamon = new CacheMapSyncDaemon();
+        this.deamon.setDaemon(true);
+        this.deamon.start();
     }
     public static ServiceRegistryCache getInstance(){
         return instance;
+    }
+
+    /**
+     * 同步两个缓存后台线程
+     */
+    class CacheMapSyncDaemon extends Thread{
+        @Override
+        public void run(){
+            while(true){
+
+                try{
+
+                    try {
+                        writeLock.lock();
+                        synchronized (readOnlyMap) {
+                            if(readWriteMap.get(CacheKey.FULL_SERVICE_REGISTRY) == null){
+                                readOnlyMap.put(CacheKey.FULL_SERVICE_REGISTRY,null);
+                            }
+                            if(readWriteMap.get(CacheKey.DELTA_SERVICE_REGISTRY) == null){
+                                readOnlyMap.put(CacheKey.DELTA_SERVICE_REGISTRY,null);
+                            }
+                        }
+                    } finally {
+                        writeLock.unlock();
+                    }
+                    Thread.sleep(CACHE_MAP_SYNC_INTERVAL);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

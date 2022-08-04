@@ -75,6 +75,8 @@ public class ServiceAliveMonitor {
                         }
 
                     }
+                    //过去注册表缓存
+                    ServiceRegistryCache.getInstance().invalidate();
 
 
 
