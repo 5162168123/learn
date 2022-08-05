@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/concurrent/pom.xml" />
         <option value="$PROJECT_DIR$/distributed-filesystem/pom.xml" />
         <option value="$PROJECT_DIR$/groceries/pom.xml" />
+        <option value="$PROJECT_DIR$/jmeter-jenkins/jmeter-jenkins/pom.xml" />
+        <option value="$PROJECT_DIR$/jmeter-jenkins/pom.xml" />
       </list>
     </option>
   </component>

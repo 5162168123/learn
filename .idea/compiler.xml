@@ -8,11 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="groceries" />
+        <module name="jmeter-jenkins" />
         <module name="register-server" />
         <module name="concurrent" />
+        <module name="register-client" />
         <module name="distributed-filesystem" />
         <module name="jdk-demo" />
-        <module name="register-client" />
+        <module name="jmeter-jenkins (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +22,8 @@
       <module name="distributed-filesystem" target="1.8" />
       <module name="groceries" target="1.8" />
       <module name="jdk-demo" target="8" />
+      <module name="jmeter-jenkins" target="1.8" />
+      <module name="jmeter-jenkins (1)" target="11" />
       <module name="register-client" target="1.8" />
       <module name="register-server" target="1.8" />
     </bytecodeTargetLevel>
