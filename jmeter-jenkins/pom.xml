@@ -54,6 +54,7 @@
           </testFilesIncluded>
           <!-- 指定jtl生成目录 -->
           <resultsDirectory>${jmeter.result.jtl.dir}</resultsDirectory>
+
         </configuration>
         <executions>
           <execution>
