@@ -15,7 +15,7 @@ public class ReentrantLockDemo {
     }
 
     static void add(){
-
+        Thread.interrupted();
         for (int j = 0; j < 10000; j++) {
             reentrantLock.lock();
             System.out.println(++i);

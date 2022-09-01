@@ -49,6 +49,13 @@ public class XMLTest {
             System.out.println(element.getName() + " : " + element.getTextTrim());
         }
 
+        new Thread(XMLTest::runTest);
 
+    }
+
+
+    public static String runTest(){
+        System.out.println(1);
+        return "123";
     }
 }
