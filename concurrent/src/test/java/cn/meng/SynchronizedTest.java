@@ -32,8 +32,19 @@ public class SynchronizedTest {
     }
 
     @Test
-    void test(){
+    public void test(){
+        int i =1;
+        if((i=2) > 5){
+            System.out.println(123);
+        }
+        else if ((i=3)>1){
+            System.out.println(1233);
+        }
+    }
 
+    public <T> T test(T a){
+        Object aa = new Object();
+        return (T)a;
     }
 
 }
