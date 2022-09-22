@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class CachedServiceRegistry {
 
@@ -28,6 +29,14 @@ public class CachedServiceRegistry {
      * 代表了当前的本地缓存的服务注册表的一个版本号
      */
     private AtomicLong applicationsVersion = new AtomicLong(0L);
+    /**
+     * 本地缓存注册表的读写锁
+     */
+    private ReentrantReadWriteLock applicationsLock = new ReentrantReadWriteLock();
+
+    private ReentrantReadWriteLock.WriteLock writeLock = applicationsLock.writeLock();
+    private ReentrantReadWriteLock.ReadLock readLock = applicationsLock.readLock();
+
     private RegisterClient registerClient;
 
     private FetchFullRegistryWorker fetchFullRegistryWorker;
@@ -119,7 +128,8 @@ public class CachedServiceRegistry {
         }
 
         private void mergeDeltaRegistry(DeltaRegistry deltaRegistry) {
-            synchronized(applications) {
+            try {
+                writeLock.lock();
                 Map<String, Map<String, ServiceInstance>> registry =
                         applications.getReference().getRegistry();
 
@@ -156,6 +166,9 @@ public class CachedServiceRegistry {
                     }
                 }
             }
+            finally {
+                writeLock.unlock();
+            }
         }
 
         private void reconcileRegistry(DeltaRegistry  deltaRegistry){
@@ -184,7 +197,13 @@ public class CachedServiceRegistry {
          * @return
          */
         public Map<String, Map<String, ServiceInstance>> getRegistry() {
-            return applications.getReference().getRegistry();
+            try{
+               readLock.lock();
+                return applications.getReference().getRegistry();
+            }finally {
+                readLock.unlock();
+            }
+
         }
         /**
          * 服务实例操作

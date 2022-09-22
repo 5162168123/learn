@@ -13,8 +13,7 @@ import java.util.Map;
 @Data
 public class Applications {
 
-	private Map<String, Map<String, ServiceInstance>> registry
-			= new HashMap<>();
+	private Map<String, Map<String, ServiceInstance>> registry;
 
 	public Applications() {
 		
