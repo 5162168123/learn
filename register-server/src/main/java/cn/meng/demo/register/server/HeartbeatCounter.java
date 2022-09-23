@@ -13,10 +13,10 @@ public class HeartbeatCounter {
     //最近一分钟心跳次数
     private AtomicLong latestMinuteHeartbeatCount = new AtomicLong(0L);
     private HeartbeatCounter(){
-        Thread deamon = new Thread(this::deamon);
-        deamon.setDaemon(true);
-        deamon.start();
-    };
+        Thread daemon = new Thread(this::daemon);
+        daemon.setDaemon(true);
+        daemon.start();
+    }
 
     public static HeartbeatCounter getInstance(){
         return instance;
@@ -39,7 +39,7 @@ public class HeartbeatCounter {
         return latestMinuteHeartbeatCount.get();
     }
 
-    private void deamon(){
+    private void daemon(){
         while(true){
             try{
                 if(System.currentTimeMillis() -  latestMinuteTimestamp > 60 * 1000){

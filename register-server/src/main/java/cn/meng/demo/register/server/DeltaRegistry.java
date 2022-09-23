@@ -1,6 +1,7 @@
 package cn.meng.demo.register.server;
 
-import java.util.LinkedList;
+
+import java.util.Queue;
 
 import cn.meng.demo.register.server.ServiceRegistry.RecentlyChangedServiceInstance;
 import lombok.Data;
@@ -14,11 +15,11 @@ import lombok.Data;
 @Data
 public class DeltaRegistry {
 
-	private LinkedList<RecentlyChangedServiceInstance> recentlyChangedQueue;
+	private Queue<RecentlyChangedServiceInstance> recentlyChangedQueue;
 	private Long serviceInstanceTotalCount;
 	
-	public DeltaRegistry(LinkedList<RecentlyChangedServiceInstance> recentlyChangedQueue,
-			Long serviceInstanceTotalCount) {
+	public DeltaRegistry(Queue<RecentlyChangedServiceInstance> recentlyChangedQueue,
+						 Long serviceInstanceTotalCount) {
 		this.recentlyChangedQueue = recentlyChangedQueue;
 		this.serviceInstanceTotalCount = serviceInstanceTotalCount;
 	}

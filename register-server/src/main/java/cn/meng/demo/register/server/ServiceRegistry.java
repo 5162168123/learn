@@ -1,12 +1,13 @@
 package cn.meng.demo.register.server;
 
 import lombok.Builder;
-import lombok.Data;
+
 import lombok.ToString;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -33,12 +34,12 @@ public class ServiceRegistry {
     /*
     最近更新的服务实例列队
      */
-    private LinkedList<RecentlyChangedServiceInstance> recentlyChangedQueue = new LinkedList<>();
+    private Queue<RecentlyChangedServiceInstance> recentlyChangedQueue = new ConcurrentLinkedQueue<>();
 
     /*
     注册表
      */
-    private Map<String,Map<String,ServiceInstance>> registry = new HashMap<>();
+    private Map<String,Map<String,ServiceInstance>> registry = new ConcurrentHashMap<>();
 
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
@@ -67,7 +68,7 @@ public class ServiceRegistry {
             //服务实例放入注册表中
             Map<String,ServiceInstance> serviceInstanceMap = registry.get(serviceInstance.getServiceName());
             if(serviceInstanceMap == null){
-                serviceInstanceMap = new HashMap<>();
+                serviceInstanceMap = new ConcurrentHashMap<>();
                 registry.put(serviceInstance.getServiceName(),serviceInstanceMap);
             }
             serviceInstanceMap.put(serviceInstance.getServiceInstanceId(),serviceInstance);

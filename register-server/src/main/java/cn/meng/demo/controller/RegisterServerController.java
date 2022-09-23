@@ -23,7 +23,9 @@ public class RegisterServerController {
      * @return
      */
     public RegisterResponse register(RegisterRequest registerRequest){
+
         RegisterResponse response;
+        //构造被注册的服务实例
         try{
             ServiceInstance serviceInstance = ServiceInstance.builder()
                     .hostname(registerRequest.getHostname())
@@ -34,9 +36,10 @@ public class RegisterServerController {
                     .lease(null)
                     .build();
 
-
+            //调用注册方法写入注册表
             registry.register(serviceInstance);
 
+            //返回给caller
             response = RegisterResponse.builder()
                     .code(ResponseEnum.SUCCESS.getCode())
                     .message(ResponseEnum.SUCCESS.getMessage())

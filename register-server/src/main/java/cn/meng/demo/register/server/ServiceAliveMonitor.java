@@ -10,13 +10,13 @@ import java.util.Map;
 public class ServiceAliveMonitor {
 
     private static final long CHECK_ALIVE_INTERVAL = 60 * 1000L;
-    private Deamon deamon;
+    private Daemon daemon;
 
     public ServiceAliveMonitor(){
-        deamon = new Deamon();
+        daemon = new Daemon();
     }
     public void start(){
-        Thread thread = new Thread(deamon);
+        Thread thread = new Thread(daemon);
         thread.setName("ServiceAliveMonitor");
         thread.setDaemon(true);
         thread.start();
@@ -25,7 +25,7 @@ public class ServiceAliveMonitor {
     /**
      * 存活检测类
      */
-    private class Deamon implements Runnable{
+    private class Daemon implements Runnable{
 
         ServiceRegistry registry = ServiceRegistry.getInstance();
 
