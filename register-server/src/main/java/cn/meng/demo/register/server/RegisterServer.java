@@ -1,6 +1,9 @@
 package cn.meng.demo.register.server;
 
-import cn.meng.demo.controller.RegisterServerController;
+import cn.meng.demo.register.server.web.RegisterServerController;
+import cn.meng.demo.register.server.core.ServiceAliveMonitor;
+import cn.meng.demo.register.server.web.HeartbeatRequest;
+import cn.meng.demo.register.server.web.RegisterRequest;
 
 import java.util.UUID;
 
@@ -9,16 +12,16 @@ public class RegisterServer {
         RegisterServerController registerServerController = new RegisterServerController();
         String id = UUID.randomUUID().toString().replace("-","");
         RegisterRequest request = RegisterRequest.builder()
-                .hostname("xxxxxx")
+                .serviceName("test")
+                .serviceInstanceId(id)
                 .ip("xx.xx.x..x")
+                .hostname("xxxxxx")
                 .port(123)
-                .ServiceInstanceId(id)
-                .ServiceName("test")
                 .build();
         registerServerController.register(request);
 
         HeartbeatRequest heartbeatRequest = HeartbeatRequest.builder()
-                .ServiceInstanceId(id)
+                .serviceInstanceId(id)
                 .serviceName("test")
                 .build();
         registerServerController.heartbeat(heartbeatRequest);

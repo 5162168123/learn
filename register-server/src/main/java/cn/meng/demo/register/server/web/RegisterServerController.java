@@ -1,9 +1,11 @@
-package cn.meng.demo.controller;
+package cn.meng.demo.register.server.web;
 
-import cn.meng.demo.register.server.*;
+import cn.meng.demo.register.server.cluster.PeersReplicator;
+import cn.meng.demo.register.server.cluster.PeersReplicatorBatch;
+import cn.meng.demo.register.server.core.*;
+import cn.meng.demo.register.server.web.*;
 
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.List;
 
 public class RegisterServerController {
 
@@ -11,6 +13,11 @@ public class RegisterServerController {
      * 服务注册表
      */
     private ServiceRegistry registry = ServiceRegistry.getInstance();
+    /**
+     * 集群同步组件
+     */
+
+    private PeersReplicator replicator = PeersReplicator.getInstance();
     /**
      * 服务注册表缓存
      */
@@ -54,7 +61,7 @@ public class RegisterServerController {
             }
             //过期注册表缓存
             serviceRegistryCache.invalidate();
-
+            replicator.replicateRegister(registerRequest);
 
             }catch (Exception e){
                 response = RegisterResponse.builder()
@@ -83,6 +90,7 @@ public class RegisterServerController {
                 HeartbeatCounter.getInstance().increment();
 
             }
+            replicator.replicateHeartBeat(request);
             response = HeartbeatResponse.builder()
                     .code(ResponseEnum.SUCCESS.getCode())
                     .message(ResponseEnum.SUCCESS.getMessage())
@@ -100,6 +108,21 @@ public class RegisterServerController {
         return response;
     }
 
+    /**
+     * 同步batch数据
+     * @param batch
+     */
+    public void replicateBatch(PeersReplicatorBatch batch) {
+        for(AbstractRequest request : batch.getRequests()) {
+            if(request.getType().equals(AbstractRequest.REGISTER_REQUEST)) {
+                register((RegisterRequest) request);
+            } else if(request.getType().equals(AbstractRequest.CANCEL_REQUEST)) {
+                cancel((CancelRequest) request);
+            } else if(request.getType().equals(AbstractRequest.HEARTBEAT_REQUEST)) {
+                heartbeat((HeartbeatRequest) request);
+            }
+        }
+    }
 
     /**
      * 拉取全量注册表
@@ -132,12 +155,13 @@ public class RegisterServerController {
 */
     }
 
-        /**
+    /**
      * 下线服务
-     * @param serviceName
-     * @param serviceInstanceId
+     * @param request
      */
-    public void cancel(String serviceName,String serviceInstanceId){
+    public void cancel(CancelRequest request){
+        String serviceName = request.getServiceName();
+        String serviceInstanceId = request.getServiceInstanceId();
         registry.remove(serviceName,serviceInstanceId);
         //更新自我保护策略
         synchronized(SelfProtectionPolicy.class){
@@ -148,5 +172,6 @@ public class RegisterServerController {
         }
 
         ServiceRegistryCache.getInstance().invalidate();
+        replicator.replicateCancel(request);
     }
 }

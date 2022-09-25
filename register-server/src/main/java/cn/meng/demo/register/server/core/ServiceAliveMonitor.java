@@ -1,4 +1,4 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.core;
 
 import java.util.LinkedList;
 import java.util.Map;

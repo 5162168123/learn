@@ -1,4 +1,4 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.web;
 
 
 public enum ResponseEnum {

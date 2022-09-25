@@ -1,6 +1,4 @@
-package cn.meng.demo.register.server;
-
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+package cn.meng.demo.register.server.core;
 
 import java.util.concurrent.atomic.AtomicLong;
 

@@ -1,8 +1,8 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.web;
 
+import cn.meng.demo.register.server.core.ServiceInstance;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

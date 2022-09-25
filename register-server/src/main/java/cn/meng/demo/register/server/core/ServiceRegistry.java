@@ -1,4 +1,4 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.core;
 
 import lombok.Builder;
 
@@ -167,7 +167,7 @@ public class ServiceRegistry {
      */
 
     @Builder
-    public class RecentlyChangedServiceInstance{
+    static class RecentlyChangedServiceInstance{
         ServiceInstance serviceInstance;
         Long changedTimestamp;
         String serviceInstanceOperation;

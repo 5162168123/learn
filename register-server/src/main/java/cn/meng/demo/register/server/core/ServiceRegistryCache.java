@@ -1,7 +1,7 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.core;
 
-import javax.xml.ws.Service;
-import java.rmi.registry.Registry;
+import cn.meng.demo.register.server.web.Applications;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

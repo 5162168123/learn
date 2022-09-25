@@ -1,4 +1,4 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.web;
 
 
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class HeartbeatResponse {
+public class RegisterResponse {
 
     private int code;
     private String message;

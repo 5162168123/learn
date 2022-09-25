@@ -120,7 +120,7 @@ public class CachedServiceRegistry {
                     // 再检查一下，跟服务端的注册表的服务实例的数量相比，是否是一致的
                     // 封装一下增量注册表的对象，也就是拉取增量注册表的时候，一方面是返回那个数据
                     // 另外一方面，是要那个对应的register-server端的服务实例的数量
-
+                    reconcileRegistry(deltaRegistry);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

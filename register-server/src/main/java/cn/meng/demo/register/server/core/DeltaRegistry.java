@@ -1,9 +1,9 @@
-package cn.meng.demo.register.server;
+package cn.meng.demo.register.server.core;
 
 
 import java.util.Queue;
 
-import cn.meng.demo.register.server.ServiceRegistry.RecentlyChangedServiceInstance;
+import cn.meng.demo.register.server.core.ServiceRegistry.RecentlyChangedServiceInstance;
 import lombok.Data;
 
 /**
@@ -15,7 +15,13 @@ import lombok.Data;
 @Data
 public class DeltaRegistry {
 
+	/**
+	 * 最近变更列队
+	 */
 	private Queue<RecentlyChangedServiceInstance> recentlyChangedQueue;
+	/**
+	 * 当前服务总数
+	 */
 	private Long serviceInstanceTotalCount;
 	
 	public DeltaRegistry(Queue<RecentlyChangedServiceInstance> recentlyChangedQueue,
