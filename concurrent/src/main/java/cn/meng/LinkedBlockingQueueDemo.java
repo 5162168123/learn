@@ -9,6 +9,7 @@ public class LinkedBlockingQueueDemo {
         queue.put("张三");
         queue.take();
         queue.size();
+
         Iterator<String> iterator = queue.iterator();
     }
 }
