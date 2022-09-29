@@ -9,8 +9,8 @@ public class HeartbeatRequest extends AbstractRequest{
     /**
      * 请求类型
      */
-    private int type = HEARTBEAT_REQUEST;
-    public int getType(){
+    private Integer type = HEARTBEAT_REQUEST;
+    public Integer getType(){
         return type;
     }
     public String getServiceInstanceId(){

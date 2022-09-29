@@ -12,9 +12,9 @@ public class CancelRequest extends AbstractRequest{
     /**
      * 请求类型
      */
-    private int type = CANCEL_REQUEST;
+    private Integer type = CANCEL_REQUEST;
 
-    public int getType(){
+    public Integer getType(){
         return type;
     }
     public String getServiceInstanceId(){

@@ -13,9 +13,9 @@ public class RegisterRequest extends AbstractRequest{
     private int type = REGISTER_REQUEST;
     private String ip;
     private String hostname;
-    private int port;
+    private Integer port;
 
-    public int getType(){
+    public Integer getType(){
         return type;
     }
 

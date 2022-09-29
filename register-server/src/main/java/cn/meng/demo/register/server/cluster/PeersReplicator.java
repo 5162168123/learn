@@ -6,10 +6,9 @@ import cn.meng.demo.register.server.web.HeartbeatRequest;
 import cn.meng.demo.register.server.web.RegisterRequest;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -23,17 +22,17 @@ public class PeersReplicator {
     /**
      * 第一层队列，接收高并发写入
      */
-    private ConcurrentLinkedDeque<AbstractRequest> acceptorQueue = new ConcurrentLinkedDeque<>();
+    private ConcurrentLinkedQueue<AbstractRequest> acceptorQueue = new ConcurrentLinkedQueue<>();
     /**
      * 第二梯队
      */
-    private LinkedBlockingDeque<AbstractRequest> batchQueue = new LinkedBlockingDeque<>();
+    private LinkedBlockingQueue<AbstractRequest> batchQueue = new LinkedBlockingQueue<>();
 
     /**
      * 第三层，存放打包好的信息，等待发送同步
      *
      */
-    private LinkedBlockingDeque<PeersReplicatorBatch> sendQueue = new LinkedBlockingDeque<>();
+    private LinkedBlockingQueue<PeersReplicatorBatch> sendQueue = new LinkedBlockingQueue<>();
 
     private PeersReplicator(){
         //开启接收请求以及打包 的线程
@@ -121,6 +120,10 @@ public class PeersReplicator {
      * 进行集群同步的线程
      */
     class PeersReplicateThread extends  Thread{
+
+        ExecutorService threadPool = Executors.newFixedThreadPool(
+                RegisterServerClusterConfiguration.getPeers().size()
+        );
         @Override
         public void run() {
 
@@ -129,7 +132,10 @@ public class PeersReplicator {
                     //阻塞式获取第一个元素
                     PeersReplicatorBatch batch = sendQueue.take();
                     //发送http请求，给每个registerServer发送同步请求
-                    System.out.println("给每个registerServer发送同步请求");
+                    threadPool.execute(() -> {
+                        System.out.println("给每个registerServer发送同步请求");
+                    });
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

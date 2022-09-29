@@ -10,7 +10,6 @@ public abstract class AbstractRequest {
 
     protected String serviceName;
     protected String serviceInstanceId;
-    protected Integer type;
     public AbstractRequest(){
 
     }
@@ -19,5 +18,7 @@ public abstract class AbstractRequest {
         this.serviceName = serviceName;
         this.serviceInstanceId = serviceInstanceId;
     }
+
+    public abstract Integer getType();
 
 }
