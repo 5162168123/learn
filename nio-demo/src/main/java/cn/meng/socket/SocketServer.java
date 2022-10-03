@@ -51,13 +51,13 @@ public class SocketServer {
 				// Socket的输入流，相当于就是不停的读取人家通过TCP协议发送过的一个一个的TCP包
 				// 把TCP包的数据通过IO输入流的方式提供给你
 				// 你就可以通过IO输入流读取的方式把TCP包的数据读出来放入JVM内存的一个缓冲数组中
-				if(len != -1) {
+				while(len != -1) {
 					String request = new String(buf, 0, len);
 					System.out.println("线程 ["
 							+ Thread.currentThread().getName() +
 							"]服务端接收到了请求：" + request);
 					out.write("收到，收到".getBytes(StandardCharsets.UTF_8));
-
+					len = in.read(buf);
 					// 你需要反复的去读取socket流传输过来的数据
 					// 因为人家是不停的用流的方式发送数据过来的，你不需要不停的读取
 					// buf才1kb，可能你才读取了1kb的数据

@@ -28,19 +28,28 @@ public class SocketClient {
 					InputStreamReader in = new InputStreamReader(socket.getInputStream());
 					OutputStream out = socket.getOutputStream();
 
-					out.write("你好".getBytes()); // 发送数据流，底层拆分为一个一个的TCP包发过去
+
 
 					char[] buf = new char[1024 * 1024];
-					int len = in.read(buf);
 
-					if(len != -1) {
-						String response = new String(buf, 0, len);
-						System.out.println("客户端 ["+ Thread.currentThread().getName() +"] 接收到了响应：" + response);
+
+					while(true){
+						try{
+							out.write("你好".getBytes()); // 发送数据流，底层拆分为一个一个的TCP包发过去
+							int len = in.read(buf);
+							String response = new String(buf, 0, len);
+							System.out.println("客户端 ["+ Thread.currentThread().getName() +"] 接收到了响应：" + response);
+							Thread.sleep(1000);
+						}catch (Exception e){
+							e.printStackTrace();
+							in.close();
+							out.close();
+							socket.close();
+						}
+
 					}
 
-					in.close();
-					out.close();
-					socket.close();
+
 				}catch (Exception e){
 					e.printStackTrace();
 				}
