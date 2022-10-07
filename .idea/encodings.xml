@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/concurrent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/demo-netty/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/demo-netty/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-filesystem/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-filesystem/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/groceries/src/main/java" charset="UTF-8" />
