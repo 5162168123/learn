@@ -32,6 +32,45 @@
     </dependency>
   </dependencies>
 
-
+  <packaging>jar</packaging>
+  <build>
+    <plugins>
+      <!--<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            &lt;!&ndash;生成的jar中，不要包含pom.xml和pom.properties这两个文件&ndash;&gt;
+            <addMavenDescriptor>true</addMavenDescriptor>
+            <manifest>
+              <mainClass>cn.meng.NettyServer</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>-->
+      <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>cn.meng.NettyServer</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+      <executions>
+        <execution>
+          <id>make-assembly</id>
+          <phase>package</phase>
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    </plugins>
+  </build>
 
 </project>
