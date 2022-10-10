@@ -6,7 +6,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class NettyServer {
+public class  NettyServer {
 
     public static void main(String[] args) {
         EventLoopGroup parentGroup = new NioEventLoopGroup();
@@ -15,6 +15,7 @@ public class NettyServer {
         try{
             //netty服务器端
             ServerBootstrap serverBootstrap = new ServerBootstrap();
+
 
             serverBootstrap.group(parentGroup,childGroup)
                     .channel(NioServerSocketChannel.class)
