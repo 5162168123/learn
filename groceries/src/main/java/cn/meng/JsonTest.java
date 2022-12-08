@@ -17,6 +17,7 @@ public class JsonTest {
         ArrayList<JSONObject> results = jsonObject.getObject("results", ArrayList.class);
         ArrayList<JSONObject> series = results.get(0).getObject("series", ArrayList.class);
         Map<String,String> resultMap = new HashMap<>();
+
         for (JSONObject s : series) {
 //            System.out.println(s.get("tags"));
             JSONObject tags = s.getJSONObject("tags");
