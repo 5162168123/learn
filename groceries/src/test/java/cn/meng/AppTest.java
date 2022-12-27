@@ -106,10 +106,8 @@ public class AppTest
 
     @Test
     public void test8(){
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
-        String a = "12";
-        double v = Double.parseDouble(a);
-        System.out.println(decimalFormat.format(v));
+        TestEnum a = TestEnum.valueOf("Abig");
+        System.out.println(a.getName());
     }
 }
