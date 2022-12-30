@@ -106,8 +106,9 @@ public class AppTest
 
     @Test
     public void test8(){
-
-        TestEnum a = TestEnum.valueOf("Abig");
-        System.out.println(a.getName());
+        Scanner sc = new Scanner(System.in);
+        System.out.println("shuru ");
+        String next = sc.next();
+        System.out.println(next.length());
     }
 }
