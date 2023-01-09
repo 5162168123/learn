@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -18,14 +19,16 @@ public class App
 {
     static volatile AtomicInteger a = new AtomicInteger(0);
     public static void main( String[] args ) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-        System.out.println(simpleDateFormat.format(new Date(System.currentTimeMillis())).toString());
+        Scanner sc = new Scanner(System.in);
+        System.out.println("shuru ");
+        String next = sc.nextLine();
+        System.out.println(next.length());
+        Integer
     }
     public void test(){
         System.out.println(123);
     }
     public void test1(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("1",null);
+
     }
 }

@@ -1,18 +1,24 @@
 package cn.meng.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
+<<<<<<< HEAD
 import io.netty.util.AttributeKey;
+=======
+import io.netty.util.concurrent.EventExecutorGroup;
+>>>>>>> e0c6cf5aafc51d213d4cfe9cae4d6b595b697369
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NettyServer {
     public static void main(String[] args) {
@@ -23,17 +29,30 @@ public class NettyServer {
         serverBootstrap
                 .group(boss, worker)
                 .channel(NioServerSocketChannel.class)
+                .option(ChannelOption.SO_KEEPALIVE,false)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
+                    class FirstServerHandler extends ChannelInboundHandlerAdapter {
+                        @Override
+                        public void channelRead(ChannelHandlerContext ctx, Object msg) {
+                            ByteBuf byteBuf = (ByteBuf) msg;
+                            System.out.println(new Date() + ": 服务端读到数据 -> " +
+                                    byteBuf.toString(StandardCharsets.UTF_8));
+
+                            System.out.println(new Date() + ": 服务端写出数据");
+                            ByteBuf out = getByteBuf(ctx);
+                            ctx.channel().writeAndFlush(out);
+                        }
+
+                        private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
+                            byte[] bytes = "你好，欢迎关注我的微信公众号，《闪电侠的博客》!".getBytes(StandardCharsets.UTF_8);
+                            ByteBuf buffer = ctx.alloc().buffer();
+                            buffer.writeBytes(bytes);
+                            return buffer;
+                        }
+                    }
+
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new StringDecoder());
-                        ch.pipeline().addLast(new
-                                                      SimpleChannelInboundHandler<String>() {
-                                                          @Override
-                                                          protected void
-                                                          channelRead0(ChannelHandlerContext ctx, String msg) {
-                                                              System.out.println(msg);
-                                                          }
-                                                      });
+                        ch.pipeline().addLast(new FirstServerHandler());
                     }
                 })
                 .attr(AttributeKey.newInstance("serviceName"),"nettyServer");

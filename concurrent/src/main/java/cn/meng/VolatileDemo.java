@@ -4,8 +4,16 @@ import java.util.concurrent.TimeUnit;
 
 public class VolatileDemo {
 
-	volatile int flag = 0;
-	
+	int flag = 0;
+
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
+
 	public static void main(String[] args) {
 
 		VolatileDemo demo = new VolatileDemo();
@@ -13,11 +21,11 @@ public class VolatileDemo {
 		new Thread() {
 			
 			public void run() {
-				int localFlag = demo.flag;
+				int localFlag = demo.getFlag();
 				while(true) {
-					if(localFlag != demo.flag) {
-						System.out.println("读取到了修改后的标志位：" + demo.flag);
-						localFlag = demo.flag;
+					if(localFlag != demo.getFlag()) {
+						System.out.println("读取到了修改后的标志位：" + demo.getFlag());
+						localFlag = demo.getFlag();
 					}
 				}  
 			};
@@ -27,10 +35,10 @@ public class VolatileDemo {
 		new Thread() {
 			
 			public void run() {
-				int localFlag = demo.flag;
+				int localFlag = demo.getFlag();
 				while(true) { 
 					System.out.println("标志位被修改为了：" + ++localFlag);
-					demo.flag = localFlag;
+					demo.setFlag(localFlag);
 					try {
 						TimeUnit.SECONDS.sleep(2); 
 					} catch (Exception e) {
