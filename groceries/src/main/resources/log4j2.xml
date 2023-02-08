@@ -13,20 +13,21 @@
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <!--当日志大小达到50MB时，以上述filePattern定义的格式进行打包压缩 -->
-                <SizeBasedTriggeringPolicy size="50MB"/>
+                <SizeBasedTriggeringPolicy size="300MB"/>
             </Policies>
             <!--压缩包数量不超过20-->
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
         <!-- 异步输出文件 -->
-        <Async name="Async">
-            <AppenderRef ref="RollingFile"/>
-        </Async>
+<!--        <Async name="Async">-->
+<!--            <AppenderRef ref="RollingFile"/>-->
+<!--        </Async>-->
     </appenders>
     <loggers>
         <root level="info">
-            <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="Async"/>
+<!--            <appender-ref ref="CONSOLE"/>-->
+            <appender-ref ref="RollingFile"/>
+<!--            <appender-ref ref="Async"/>-->
         </root>
     </loggers>
 </configuration>
