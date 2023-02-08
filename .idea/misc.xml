@@ -13,10 +13,6 @@
         <option value="$PROJECT_DIR$/jmeter-jenkins/jmeter-jenkins/pom.xml" />
         <option value="$PROJECT_DIR$/jmeter-jenkins/pom.xml" />
         <option value="$PROJECT_DIR$/nio-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/demo-netty/pom.xml" />
-        <option value="$PROJECT_DIR$/netty-advance/pom.xml" />
-        <option value="$PROJECT_DIR$/untitled/pom.xml" />
-        <option value="$PROJECT_DIR$/annotation-experiment/pom.xml" />
       </list>
     </option>
   </component>

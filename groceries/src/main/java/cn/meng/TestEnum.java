@@ -1,6 +1,7 @@
 package cn.meng;
 
 public enum TestEnum {
+
     A(0,"a"),
     B(0,"b");
     private Integer type;
@@ -26,4 +27,6 @@ public enum TestEnum {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
