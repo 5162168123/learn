@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/chapter22/chapter22.iml" filepath="$PROJECT_DIR$/chapter22/chapter22.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chapter24/chapter24.iml" filepath="$PROJECT_DIR$/chapter24/chapter24.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chapter25/chapter25.iml" filepath="$PROJECT_DIR$/chapter25/chapter25.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chapter26/chapter26.iml" filepath="$PROJECT_DIR$/chapter26/chapter26.iml" />
       <module fileurl="file://$PROJECT_DIR$/jmeter-jenkins/jmeter-jenkins/jmeter-jenkins (1).iml" filepath="$PROJECT_DIR$/jmeter-jenkins/jmeter-jenkins/jmeter-jenkins (1).iml" />
-      <module fileurl="file://$PROJECT_DIR$/learn.iml" filepath="$PROJECT_DIR$/learn.iml" />
     </modules>
   </component>
 </project>
