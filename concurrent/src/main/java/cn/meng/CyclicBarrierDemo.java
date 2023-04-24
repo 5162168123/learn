@@ -10,6 +10,11 @@ public class CyclicBarrierDemo {
         CyclicBarrier cyclicBarrier = new CyclicBarrier(3, new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("合并工作万恒");
             }
         });
@@ -18,6 +23,8 @@ public class CyclicBarrierDemo {
             System.out.println("线程1工作完事儿");
             try {
                 cyclicBarrier.await();
+//                Thread.sleep(1000);
+                System.out.println(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (BrokenBarrierException e) {
@@ -29,6 +36,8 @@ public class CyclicBarrierDemo {
             System.out.println("线程2工作完事儿");
             try {
                 cyclicBarrier.await();
+//                Thread.sleep(1000);
+                System.out.println(2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (BrokenBarrierException e) {
@@ -40,6 +49,8 @@ public class CyclicBarrierDemo {
             System.out.println("线程3工作完事儿");
             try {
                 cyclicBarrier.await();
+//                Thread.sleep(1000);
+                System.out.println(3);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (BrokenBarrierException e) {

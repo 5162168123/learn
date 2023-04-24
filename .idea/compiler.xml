@@ -18,6 +18,7 @@
         <module name="jmeter-jenkins (1)" />
         <module name="concurrent" />
         <module name="register-client" />
+        <module name="vocational-algorithm" />
         <module name="groceries" />
         <module name="nio-demo" />
       </profile>
