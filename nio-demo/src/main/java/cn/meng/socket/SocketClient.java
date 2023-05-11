@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class SocketClient {
-	final static String ip = "172.20.10.2";
+	final static String ip = "127.0.0.1";
 	final static Integer port = 9000;
 
 	public static void main(String[] args) throws Exception {

@@ -20,6 +20,7 @@
         <module name="register-client" />
         <module name="vocational-algorithm" />
         <module name="groceries" />
+        <module name="marketing-demo" />
         <module name="nio-demo" />
       </profile>
     </annotationProcessing>
