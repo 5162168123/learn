@@ -29,6 +29,7 @@ public class AtomicLongTest {
         System.out.println(a.getClass());
         String aClass = a.getClass().toString();
         System.out.println(aClass);
+        a.substring(2);
     }
 
 }
