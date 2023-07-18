@@ -25,11 +25,11 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>com.testfan</groupId>
       <artifactId>marketing</artifactId>
       <version>1.0.0</version>
-    </dependency>
+    </dependency>-->
 
     <!-- https://mvnrepository.com/artifact/org.apache.jmeter/ApacheJMeter_core -->
     <dependency>
