@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class SocketServer {
 	
 	public static void main(String[] args) throws Exception {
-		ServerSocket serverSocket = new ServerSocket(9000);
+		ServerSocket serverSocket = new ServerSocket(9999);
 		System.out.println("9000 绑定成功");
 		while (true){
 			Socket socket = serverSocket.accept(); // 在这里会阻塞住，一直等待别人跟建立连接
